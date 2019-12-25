@@ -1,0 +1,13 @@
+# configure for apr compile
+
+PATH_REPO=`git rev-parse --show-toplevel`
+source ${PATH_REPO}/env.sh
+
+PATH_CUR=`pwd`
+PATH_PROCPS=$PATH_CUR/procps
+
+# apr
+if [ ! -d $PATH_PROCPS ]; then
+    down_load http://procps.sourceforge.net/procps-3.2.8.tar.gz ${PATH_PROCPS}
+fi
+

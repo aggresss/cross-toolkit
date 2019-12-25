@@ -3,8 +3,6 @@ procps
 
 http://procps.sourceforge.net/
 
-http://procps.sourceforge.net/procps-3.2.8.tar.gz
-
 https://gitlab.com/procps-ng/procps/
 
 procps is a set of command line and full-screen utilities that provide
