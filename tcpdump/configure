@@ -1,0 +1,37 @@
+# configure for apr compile
+
+HOST=$1
+
+PATH_REPO=`git rev-parse --show-toplevel`
+source ${PATH_REPO}/env.sh
+
+PATH_CUR=`pwd`
+PATH_LIBPCAP=$PATH_CUR/libpcap
+PATH_TCPDUMP=$PATH_CUR/tcpdump
+PATH_OUTPUT=$PATH_CUR/output
+
+if [ ! -d $PATH_LIBPCAP ]; then
+    down_load http://www.tcpdump.org/release/libpcap-1.9.1.tar.gz ${PATH_LIBPCAP}
+fi
+
+if [ ! -d $PATH_TCPDUMP ]; then
+    down_load http://www.tcpdump.org/release/tcpdump-4.9.3.tar.gz ${PATH_TCPDUMP}
+fi
+
+if [ ! -d $PATH_OUTPUT ] ; then
+    cd $PATH_LIBPCAP && \
+        ./configure \
+            --host=$HOST \
+        && \
+        make
+fi
+
+if [ ! -d $PATH_OUTPUT ] ; then
+    cd $PATH_TCPDUMP && \
+        ./configure \
+            --host=$HOST \
+            --prefix=$PATH_OUTPUT \
+            && \
+        make && make install
+fi
+
