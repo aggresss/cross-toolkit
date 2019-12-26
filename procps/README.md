@@ -30,3 +30,8 @@ The following programs are found in procps:
 * **w** - Report logged in users and what they are doing
 * **watch** - Execute a program periodically, showing output fullscreen
 
+ncurses
+======
+
+https://invisible-island.net/ncurses/
+

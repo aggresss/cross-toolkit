@@ -5,27 +5,52 @@ source ${PATH_REPO}/env.sh
 
 PATH_CUR=`pwd`
 PATH_PROCPS=$PATH_CUR/procps
+PATH_NCURSES=$PATH_CUR/ncurses
 PATH_OUTPUT=$PATH_CUR/output
+PATH_SYSROOT=$PATH_CUR/output/sysroot
+
+if [ ! -d $PATH_NCURSES ]; then
+    down_load ftp://ftp.invisible-island.net/ncurses/ncurses-6.1.tar.gz ${PATH_NCURSES}
+fi
+
+if [ ! -d $PATH_OUTPUT ] ; then
+    cd $PATH_NCURSES && \
+        ./configure \
+            --host=arm-hisiv300-linux \
+            --prefix=$PATH_SYSROOT/usr \
+            --disable-db-install \
+            --without-manpages \
+            --without-progs \
+            --without-tack \
+            --without-tests \
+            --without-shared \
+            --without-debug \
+            --without-ada \
+        && \
+        make && make install
+fi
 
 if [ ! -d $PATH_PROCPS ]; then
     down_load https://gitlab.com/procps-ng/procps/-/archive/v3.3.16/procps-v3.3.16.tar.gz ${PATH_PROCPS}
 fi
 
-if [ ! -d $PATH_OUTPUT ] ; then
+if [ -d $PATH_OUTPUT ] ; then
     cd $PATH_PROCPS && \
         sed -r -e 's/^AC_FUNC_MALLOC/#AC_FUNC_MALLOC/' -i $PATH_PROCPS/configure.ac && \
         sed -r -e 's/^AC_FUNC_REALLOC/#AC_FUNC_REALLOC/' -i $PATH_PROCPS/configure.ac && \
         ./autogen.sh && \
         ./configure \
             --host=arm-hisiv300-linux \
-            --without-ncurses \
+            --disable-modern-top \
             --disable-static \
             --disable-shared \
             --disable-kill \
-            --bindir=$PATH_OUTPUT \
-            --sbindir=$PATH_OUTPUT \
-            --libdir=$PATH_OUTPUT/.deps \
-            --prefix=$PATH_OUTPUT/.deps \
+            --bindir=$PATH_OUTPUT/bin \
+            --sbindir=$PATH_OUTPUT/sbin \
+            --libdir=$PATH_OUTPUT/lib \
+            --includedir=$PATH_OUTPUT/include \
+            --prefix=$PATH_OUTPUT/.deps.procps \
+            --with-sysroot=$PATH_SYSROOT \
             && \
         make && make install
 fi
