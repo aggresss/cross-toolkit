@@ -26,8 +26,7 @@ if [ ! -d $PATH_OUTPUT ] ; then
             --prefix=$PATH_SYSROOT/usr \
             --with-termlib \
             --disable-database \
-            --enable-termcap \
-            --with-fallbacks=vt102 \
+            --with-fallbacks=vt100 \
             --without-manpages \
             --without-progs \
             --without-tack \
@@ -56,7 +55,7 @@ if [ -d $PATH_OUTPUT ] ; then
             --sbindir=$PATH_OUTPUT/sbin \
             --libdir=$PATH_OUTPUT/lib \
             --includedir=$PATH_OUTPUT/include \
-            --prefix=$PATH_OUTPUT/.deps.procps \
+            --prefix=$PATH_OUTPUT/.deps \
             --disable-silent-rules \
             && \
         make && make install

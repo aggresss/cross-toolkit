@@ -35,3 +35,6 @@ ncurses
 
 https://invisible-island.net/ncurses/
 
+**notice**
+
+- start top use `TERM=vt100 ./bin/top`
