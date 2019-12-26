@@ -28,6 +28,7 @@ if [ ! -d $PATH_OUTPUT ] ; then
             --prefix=$PATH_SYSROOT/usr \
             --with-termlib \
             --disable-database \
+            --disable-db-install \
             --with-fallbacks=vt100 \
             --without-manpages \
             --without-progs \
