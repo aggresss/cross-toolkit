@@ -5,9 +5,28 @@ source ${PATH_REPO}/env.sh
 
 PATH_CUR=`pwd`
 PATH_PROCPS=$PATH_CUR/procps
+PATH_OUTPUT=$PATH_CUR/output
 
-# apr
 if [ ! -d $PATH_PROCPS ]; then
-    down_load http://procps.sourceforge.net/procps-3.2.8.tar.gz ${PATH_PROCPS}
+    down_load https://gitlab.com/procps-ng/procps/-/archive/v3.3.16/procps-v3.3.16.tar.gz ${PATH_PROCPS}
+fi
+
+if [ ! -d $PATH_OUTPUT ] ; then
+    cd $PATH_PROCPS && \
+        sed -r -e 's/^AC_FUNC_MALLOC/#AC_FUNC_MALLOC/' -i $PATH_PROCPS/configure.ac && \
+        sed -r -e 's/^AC_FUNC_REALLOC/#AC_FUNC_REALLOC/' -i $PATH_PROCPS/configure.ac && \
+        ./autogen.sh && \
+        ./configure \
+            --host=arm-hisiv300-linux \
+            --without-ncurses \
+            --disable-static \
+            --disable-shared \
+            --disable-kill \
+            --bindir=$PATH_OUTPUT \
+            --sbindir=$PATH_OUTPUT \
+            --libdir=$PATH_OUTPUT/.deps \
+            --prefix=$PATH_OUTPUT/.deps \
+            && \
+        make && make install
 fi
 
