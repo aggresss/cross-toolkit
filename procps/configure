@@ -1,5 +1,7 @@
 # configure for apr compile
 
+HOST=$1
+
 PATH_REPO=`git rev-parse --show-toplevel`
 source ${PATH_REPO}/env.sh
 
@@ -13,13 +15,18 @@ if [ ! -d $PATH_NCURSES ]; then
     down_load ftp://ftp.invisible-island.net/ncurses/ncurses-6.1.tar.gz ${PATH_NCURSES}
 fi
 
+if [ ! -d $PATH_PROCPS ]; then
+    down_load https://gitlab.com/procps-ng/procps/-/archive/v3.3.16/procps-v3.3.16.tar.gz ${PATH_PROCPS}
+fi
+
 if [ ! -d $PATH_OUTPUT ] ; then
     cd $PATH_NCURSES && \
         ./configure \
-            --host=arm-hisiv300-linux \
+            --host=$HOST \
             --prefix=$PATH_SYSROOT/usr \
-            --disable-db-install \
+            --with-termlib \
             --without-manpages \
+            --disable-db-install \
             --without-progs \
             --without-tack \
             --without-tests \
@@ -30,17 +37,15 @@ if [ ! -d $PATH_OUTPUT ] ; then
         make && make install
 fi
 
-if [ ! -d $PATH_PROCPS ]; then
-    down_load https://gitlab.com/procps-ng/procps/-/archive/v3.3.16/procps-v3.3.16.tar.gz ${PATH_PROCPS}
-fi
-
 if [ -d $PATH_OUTPUT ] ; then
     cd $PATH_PROCPS && \
         sed -r -e 's/^AC_FUNC_MALLOC/#AC_FUNC_MALLOC/' -i $PATH_PROCPS/configure.ac && \
         sed -r -e 's/^AC_FUNC_REALLOC/#AC_FUNC_REALLOC/' -i $PATH_PROCPS/configure.ac && \
         ./autogen.sh && \
         ./configure \
-            --host=arm-hisiv300-linux \
+            CFLAGS="-I$PATH_SYSROOT/usr/include -I$PATH_SYSROOT/usr/include/ncurses" \
+            LDFLAGS="-L$PATH_SYSROOT/usr/lib" \
+            --host=$HOST \
             --disable-modern-top \
             --disable-static \
             --disable-shared \
@@ -50,7 +55,7 @@ if [ -d $PATH_OUTPUT ] ; then
             --libdir=$PATH_OUTPUT/lib \
             --includedir=$PATH_OUTPUT/include \
             --prefix=$PATH_OUTPUT/.deps.procps \
-            --with-sysroot=$PATH_SYSROOT \
+            --disable-silent-rules \
             && \
         make && make install
 fi
