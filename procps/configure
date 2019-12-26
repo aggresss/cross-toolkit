@@ -58,6 +58,7 @@ if [ -d $PATH_OUTPUT ] ; then
             --prefix=$PATH_OUTPUT/.deps \
             --disable-silent-rules \
             && \
-        make && make install
+        make && make install \
+        && echo 'TERM=vt100 ./top $*' > $PATH_OUTPUT/bin/top.sh && chmod +x $PATH_OUTPUT/bin/top.sh
 fi
 
