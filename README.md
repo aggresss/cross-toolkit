@@ -3,5 +3,6 @@
 USAGE:
 
 ```
-make HOST=arm-hisiv300-linux
+# Example build bin on arm-linux-gnueabihf platform
+make HOST=arm-linux-gnueabihf
 ```
