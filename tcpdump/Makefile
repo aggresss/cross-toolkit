@@ -1,5 +1,5 @@
 all:
-	@bash ./configure $(HOST)
+	@./configure $(HOST)
 
 clean:
 	@rm -rf output libpcap tcpdump

@@ -1,3 +1,4 @@
+#!/usr/bin/env bash
 # configure for apr compile
 
 HOST=$1

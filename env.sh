@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # environment file for create third-part library
 set -uv
 
