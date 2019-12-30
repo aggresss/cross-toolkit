@@ -2,5 +2,5 @@ all:
 	@./configure $(HOST)
 
 clean:
-	@rm -rf coreutils
+	@rm -rf output coreutils
 

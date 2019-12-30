@@ -13,15 +13,17 @@ PATH_OUTPUT=$PATH_CUR/output
 
 
 if [ ! -d $PATH_COREUTILS ]; then
-    down_load https://ftp.gnu.org/gnu/coreutils/coreutils-8.28.tar.xz ${PATH_COREUTILS}
+    down_load https://ftp.gnu.org/gnu/coreutils/coreutils-8.31.tar.xz ${PATH_COREUTILS}
 fi
 
 if [ ! -d $PATH_OUTPUT ] ; then
     cd $PATH_COREUTILS && \
-        ./configure \
-            --host=$HOST \
-            --with-sysroot=$SYSROOT \
-
+        autoreconf -fiv && \
+        FORCE_UNSAFE_CONFIGURE=1 ./configure        \
+            --host=$HOST                            \
+            --with-sysroot=$SYSROOT                 \
+            --prefix=$PATH_OUTPUT                   \
+            --enable-no-install-program=chroot,kill \
         && \
         make && make install
 fi

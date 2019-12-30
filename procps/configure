@@ -64,6 +64,6 @@ if [ -d $PATH_OUTPUT ] ; then
             --disable-silent-rules \
             && \
         make && make install \
-        && echo 'TERM=vt100 ./top $*' > $PATH_OUTPUT/bin/top.sh && chmod +x $PATH_OUTPUT/bin/top.sh
+        && echo 'TERM=vt100 `dirname $0`/top $*' > $PATH_OUTPUT/bin/top.sh && chmod +x $PATH_OUTPUT/bin/top.sh
 fi
 
