@@ -47,9 +47,9 @@ if [ -d $PATH_OUTPUT ] ; then
         sed -r -e 's/^AC_FUNC_MALLOC/#AC_FUNC_MALLOC/' -i $PATH_PROCPS/configure.ac && \
         sed -r -e 's/^AC_FUNC_REALLOC/#AC_FUNC_REALLOC/' -i $PATH_PROCPS/configure.ac && \
         ./autogen.sh && \
-        ./configure \
             CFLAGS="-I$PATH_SYSROOT/usr/include -I$PATH_SYSROOT/usr/include/ncurses" \
             LDFLAGS="-L$PATH_SYSROOT/usr/lib" \
+        ./configure \
             --host=$HOST \
             --with-sysroot=$SYSROOT \
             --disable-modern-top \
