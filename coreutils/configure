@@ -1,0 +1,28 @@
+#!/usr/bin/env bash
+# configure for compile
+
+HOST=$1
+SYSROOT=$2
+
+PATH_REPO=`git rev-parse --show-toplevel`
+source ${PATH_REPO}/env.sh
+
+PATH_CUR=`pwd`
+PATH_COREUTILS=$PATH_CUR/coreutils
+PATH_OUTPUT=$PATH_CUR/output
+
+
+if [ ! -d $PATH_COREUTILS ]; then
+    down_load https://ftp.gnu.org/gnu/coreutils/coreutils-8.28.tar.xz ${PATH_COREUTILS}
+fi
+
+if [ ! -d $PATH_OUTPUT ] ; then
+    cd $PATH_COREUTILS && \
+        ./configure \
+            --host=$HOST \
+            --with-sysroot=$SYSROOT \
+
+        && \
+        make && make install
+fi
+
