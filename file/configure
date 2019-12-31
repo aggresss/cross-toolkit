@@ -1,0 +1,36 @@
+#!/usr/bin/env bash
+# configure for compile
+
+HOST=$1
+SYSROOT=$2
+
+if [ ${HOST:-NOCONFIG} = "NOCONFIG" ]; then
+    COMPILER=gcc
+else
+    COMPILER=$1-gcc
+fi
+
+PATH_REPO=`git rev-parse --show-toplevel`
+source ${PATH_REPO}/env.sh
+
+PATH_CUR=`pwd`
+PATH_FILE=$PATH_CUR/file
+PATH_OUTPUT=$PATH_CUR/output
+
+
+if [ ! -d $PATH_FILE ]; then
+    down_load ftp://ftp.astron.com/pub/file/file-5.32.tar.gz ${PATH_FILE}
+fi
+
+if [ ! -d $PATH_OUTPUT ] ; then
+    cd $PATH_FILE && \
+        ./configure                     \
+            --host=$HOST                \
+            --with-sysroot=$SYSROOT     \
+            --prefix=$PATH_OUTPUT       \
+            --enable-static=yes         \
+            --enable-shared=no          \
+        && \
+        make && make install
+fi
+
