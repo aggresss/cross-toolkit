@@ -4,6 +4,12 @@
 HOST=$1
 SYSROOT=$2
 
+if [ ${HOST:-NOCONFIG} = "NOCONFIG" ]; then
+    COMPILER=gcc
+else
+    COMPILER=$1-gcc
+fi
+
 PATH_REPO=`git rev-parse --show-toplevel`
 source ${PATH_REPO}/env.sh
 
